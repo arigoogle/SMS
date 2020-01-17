@@ -1,0 +1,184 @@
+<!--Begin::Row-->
+<!--Begin::Widget Internal-->
+<div class="row mb-3">
+    <div class="col-md-3 offset-md-9">
+        <a href="#" class="btn btn-label-primary btn-bold btn-sm btn-icon-h kt-margin-l-10 float-right" data-toggle="modal" data-target="#withdrawModal">
+            Request Withdraw
+        </a>
+    </div>
+</div>
+<!--End::Row-->
+<!--End::Widget Internal-->
+
+<!--Begin::Row-->
+<!--Begin::Section-->
+<div class="row">
+    <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+        <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
+            <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        Withdraw History
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="dropdown dropdown-inline">
+                        <!-- <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="flaticon-more-1"></i>
+                        </button> -->
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-md dropdown-menu-fit">
+
+                            <!--begin::Nav-->
+                            <ul class="kt-nav">
+                                <li class="kt-nav__head">
+                                    Export Options
+                                    <span data-toggle="kt-tooltip" data-placement="right" title="Click to learn more...">
+											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--brand kt-svg-icon--md1">
+												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+													<rect x="0" y="0" width="24" height="24" />
+													<circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+													<rect fill="#000000" x="11" y="10" width="2" height="7" rx="1" />
+													<rect fill="#000000" x="11" y="7" width="2" height="2" rx="1" />
+												</g>
+											</svg>
+										</span>
+                                </li>
+                                <li class="kt-nav__separator"></li>
+                                <li class="kt-nav__item">
+                                    <a href="#" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-drop"></i>
+                                        <span class="kt-nav__link-text">Activity</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!--end::Nav-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fit">
+
+                <!--begin: Datatable -->
+                <div class="tbl-dataTableListWithdraw" id="dataTableListWithdraw"></div>
+                <!--end: Datatable -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--End::Section-->
+
+<!-- Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Request Withdraw</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="javascript:void(0)" method="POST">
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-lg-12 mb-2">
+                    <label>Select Contract:</label>
+                    <select class="form-control" onchange="gantiContract()" id="selectContract" name="selectContract">
+                        <option value="">Select Contract</option>
+                    </select>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <label>Contract Value :</label>
+                    <input class="form-control" type="text" id="contractValue" name="contractValue" placeholder="Contract Value" readonly>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <label>Amount :</label>
+                    <input class="form-control" type="text" id="withAmount" name="withAmount" placeholder="Enter Amount">
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <label>Note :</label>
+                    <textarea class="form-control" type="text" id="withNote" name="withNote" placeholder="Note"></textarea>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+<script>
+    $(document).ready(function() {
+        runPages();
+        // fetchContract();
+        setTimeout(function() {
+            getDataListWithdraw('list_withdraw');
+        },200)
+        getDataListOptionCountry('list_contract','selectContract','contracts');
+
+        $('form').submit(function(e){
+            e.preventDefault();
+            var dt = $(this).serialize();
+            dt += "&iduser="+localStorage.getItem('id');
+            $.ajax({
+                url: api_url + 'save_withdraw',
+                method: 'POST',
+                dataType: 'json',
+                data:dt,
+                success:function(dt){
+                    if(dt.success){
+                        $(".modal").modal('hide');
+                        setTimeout(function() {
+                            typeSwal = 'success';
+                            var url = 'balance/withdraw_list.html';
+                            var title = "Withdraw List";
+                            moveUrl(url,"Balance",title,'',function(){
+                                swal.fire({
+                                    type: typeSwal,
+                                    title: dt.msg,
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#4fa7f3'
+                                })
+                            })
+                        },500);
+
+                    }else{
+                        swal.fire({
+                            type: 'error',
+                            title: dt.msg,
+                            showCancelButton: false,
+                            confirmButtonColor: '#4fa7f3'
+                        })
+                    }
+                },
+                error:function(xhr){
+                    swal.fire({
+                        type: 'error',
+                        title: xhr.status + ' - ' + xhr.statusText,
+                        showCancelButton: false,
+                        confirmButtonColor: '#4fa7f3'
+                    })
+                }
+            })
+        });
+        
+    })
+    function gantiContract() {
+        var val = $("#selectContract").val();
+        generalGet('find_contract_by_id',function(data){
+            if(data.row.length>0){
+                const dt = data.row[0];
+                $("#contractValue").val(dt.contract_value);
+            }else{
+                $("#contractValue").val('');
+            }
+        },{
+            id: val
+        });        
+    }
+</script>

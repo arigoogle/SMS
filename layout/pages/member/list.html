@@ -1,0 +1,163 @@
+
+<!--Begin::Row-->
+<!--Begin::Section-->
+<div class="row">
+    <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+        <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
+            <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        List Member
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="dropdown dropdown-inline">
+                        <!-- <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="flaticon-more-1"></i>
+                        </button> -->
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-md dropdown-menu-fit">
+                            
+                            <!--begin::Nav-->
+                            <ul class="kt-nav">
+                                <li class="kt-nav__head">
+                                    Export Options
+                                    <span data-toggle="kt-tooltip" data-placement="right" title="Click to learn more...">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--brand kt-svg-icon--md1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+                                                <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1" />
+                                                <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1" />
+                                            </g>
+                                        </svg> </span>
+                                    </li>
+                                    <li class="kt-nav__separator"></li>
+                                    <li class="kt-nav__item">
+                                        <a href="#" class="kt-nav__link">
+                                            <i class="kt-nav__link-icon flaticon2-drop"></i>
+                                            <span class="kt-nav__link-text">Activity</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                                <!--end::Nav-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fit">
+                    
+                    <!--begin: Datatable -->
+                    <div class="tbl-dataListMember" id="dataListMember"></div>
+                    
+                    <!--end: Datatable -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="editMemberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Member</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="javascript:void(0)" id="frmEditMember" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col-lg-6 mb-2">
+                                <label>First Name:</label>
+                                <input type="hidden" id="idLeads" name="idleads">
+                                <input type="hidden" id="idMember" name="memberId">
+                                <input class="form-control" type="text" id="memberfName" name="memberfName" placeholder="Member First Name">
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Last Name:</label>
+                                <input class="form-control" type="text" id="memberlName" name="memberlName" placeholder="Member Last Name">
+                            </div>
+                            <div class="col-lg-12 mb-2">
+                                <label>Member Company Name:</label>
+                                <input class="form-control" type="text" id="memberCompName" name="memberCompName" placeholder="Member Name">
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Contract Start :</label>
+                                <input class="form-control" type="date" id="memberConStart" name="memberConStart" placeholder="Contract Start">
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Contract End :</label>
+                                <input class="form-control" type="date" id="memberConEnd" name="memberConEnd" placeholder="Contract End">
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Priority :</label>
+                                <input class="form-control" type="text" id="memberPriority" name="memberPriority" placeholder="Priority">
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Status :</label>
+                                <select class="form-control" id="memberStatus" name="memberStatus">
+                                    <option value="0">Unactive</option>
+                                    <option value="1">Active</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Select Contract:</label>
+                                <input type="text" class="form-control" id="memberContract" name="memberContract">
+                                <!-- <select class="form-control" onchange="gantiContract()" id="memberContract" name="memberContract">
+                                    <option value="">Select Contract</option>
+                                </select> -->
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Contract Value :</label>
+                                <input class="form-control" type="text" id="contractValue" name="contractValue" placeholder="Contract Value">
+                            </div>
+                            <div class="col-lg-12 mb-2">
+                                <label>Select Package:</label>
+                                <select disabled class="form-control" id="memberPackage" name="memberPackage">
+                                    <option value="">Select Package</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>PIC Support:</label>
+                                <input class="form-control" type="text" id="memberPICS" name="memberPICS" placeholder="PIC Support">
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>PIC Partner :</label>
+                                <input class="form-control" type="text" id="memberPICP" name="memberPICP" placeholder="PIC Partner">
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!--End::Section-->
+    
+    <script>
+        $(document).ready(function() {
+            runPages();
+            setTimeout(function() {
+                getDataListMember('list_member');
+            },500);
+            $("#frmEditMember").submit(function(e) {
+                e.preventDefault();
+                var fname = $("#memberfName").val(),
+                    lname = $("#memberlName").val(),
+                    cname = $("#memberCompName").val(),
+                    contract_start = $("#memberConStart").val(),
+                    contract_end = $("#memberConEnd").val();
+                $("#editMemberModal").modal('hide');
+                $(".modal-backdrop").hide()
+                submitForm('frmEditMember','update_member');
+            })
+        })
+    </script>
